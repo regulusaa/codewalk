@@ -1,0 +1,297 @@
+:root {
+  /* One accent, reused for the active line, Back button, links and focus. */
+  --cw-accent: #2563eb;
+  --cw-accent-dark: #1d4ed8;
+  --cw-active-bg: rgba(37, 99, 235, 0.22);
+  --cw-related-bg: rgba(37, 99, 235, 0.07);
+
+  --cw-bg: #ffffff;
+  --cw-surface: #ffffff;
+  --cw-text: #1f2328;
+  --cw-muted: #6b7280;
+  --cw-border: #d5d8de;
+  --cw-panel-bg: #f7f8fa;
+  --cw-error: #b42318;
+
+  --cw-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+/*
+ * Dark values only. Every rule below reads these through var(), so nothing
+ * else in this file (or in the CodeMirror themes, which also use var()) needs
+ * a dark-specific branch.
+ *
+ * The active/related tints are deliberately not the light rgba() values: at
+ * 0.22 / 0.07 alpha they are close to invisible over One Dark's #282c34
+ * editor background.
+ */
+:root[data-theme="dark"] {
+  --cw-accent: #60a5fa;
+  --cw-accent-dark: #93c5fd;
+  --cw-active-bg: rgba(96, 165, 250, 0.3);
+  --cw-related-bg: rgba(96, 165, 250, 0.12);
+
+  --cw-bg: #14161a;
+  --cw-surface: #1b1e24;
+  --cw-text: #e6e8eb;
+  --cw-muted: #9aa2ad;
+  --cw-border: #343941;
+  --cw-panel-bg: #1b1e24;
+  --cw-error: #f87171;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--cw-text);
+  background: var(--cw-bg);
+}
+
+.cw-app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+.cw-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.cw-app h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.cw-toggle {
+  padding: 5px 12px;
+  border: 1px solid var(--cw-border);
+  border-radius: 4px;
+  background: var(--cw-surface);
+  color: var(--cw-muted);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.cw-toggle:hover {
+  border-color: var(--cw-accent);
+  color: var(--cw-accent);
+}
+
+/* Controls row */
+
+.cw-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.cw-input,
+.cw-select,
+.cw-button,
+.cw-back,
+.cw-chip {
+  font: inherit;
+  padding: 6px 10px;
+  border: 1px solid var(--cw-border);
+  border-radius: 4px;
+  background: var(--cw-surface);
+  color: inherit;
+}
+
+.cw-input {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.cw-input:focus,
+.cw-select:focus {
+  outline: 2px solid var(--cw-accent);
+  outline-offset: -1px;
+}
+
+.cw-button {
+  background: var(--cw-accent);
+  border-color: var(--cw-accent);
+  color: var(--cw-bg);
+  cursor: pointer;
+}
+
+.cw-button:hover:not(:disabled) {
+  background: var(--cw-accent-dark);
+  border-color: var(--cw-accent-dark);
+}
+
+.cw-button:disabled {
+  background: var(--cw-surface);
+  border-color: var(--cw-border);
+  color: var(--cw-muted);
+  cursor: default;
+}
+
+.cw-status {
+  font-size: 13px;
+  color: var(--cw-muted);
+}
+
+.cw-link {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  color: var(--cw-accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cw-link:hover {
+  color: var(--cw-accent-dark);
+}
+
+.cw-error {
+  margin: 0 0 16px;
+  color: var(--cw-error);
+}
+
+/* Paste area — an editable CodeMirror instance, not a textarea */
+
+.cw-input-editor {
+  margin-bottom: 24px;
+  border: 1px solid var(--cw-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Editor + panel */
+
+.cw-workspace {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.cw-editor {
+  flex: 1 1 60%;
+  min-width: 0;
+  border: 1px solid var(--cw-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cw-panel {
+  flex: 1 1 40%;
+  min-width: 0;
+  padding: 12px 0 12px 16px;
+  border-left: 1px solid var(--cw-border);
+  background: var(--cw-panel-bg);
+}
+
+.cw-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.cw-back {
+  padding: 4px 10px;
+  border-color: var(--cw-accent);
+  color: var(--cw-accent);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.cw-back:hover:not(:disabled) {
+  background: var(--cw-accent);
+  color: var(--cw-bg);
+}
+
+.cw-back:disabled {
+  border-color: var(--cw-border);
+  color: var(--cw-muted);
+  cursor: default;
+}
+
+.cw-trail {
+  font-size: 13px;
+  color: var(--cw-muted);
+}
+
+.cw-crumb {
+  padding: 0 2px;
+  border: none;
+  background: none;
+  font: inherit;
+  color: var(--cw-accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cw-crumb:hover {
+  color: var(--cw-accent-dark);
+}
+
+.cw-current {
+  color: var(--cw-text);
+  font-weight: 600;
+}
+
+.cw-panel h2 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.cw-panel h3 {
+  margin: 16px 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--cw-muted);
+}
+
+.cw-explanation {
+  margin: 0;
+}
+
+.cw-placeholder {
+  margin: 0;
+  color: var(--cw-muted);
+}
+
+.cw-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cw-chip {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cw-chip:hover {
+  border-color: var(--cw-accent);
+  color: var(--cw-accent);
+}
